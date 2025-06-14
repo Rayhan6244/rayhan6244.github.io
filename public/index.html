@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat with Aria</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #e6f0ff;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      color: #1a73e8;
+      margin-bottom: 20px;
+    }
+    #chat {
+      width: 100%;
+      max-width: 600px;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 2px solid #1a73e8;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    .message {
+      margin: 10px 0;
+    }
+    .user {
+      font-weight: bold;
+      color: #0b5394;
+    }
+    input[type="text"] {
+      width: 70%;
+      padding: 10px;
+      border: 1px solid #1a73e8;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    button:hover {
+      background-color: #155ab6;
+    }
+  </style>
+</head>
+<body>
+  <h2>Chat with Aria 💬</h2>
+  <div id="chat"></div>
+  <div>
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+    <button id="voiceBtn">🎙️</button>
+  </div>
+
+<script>
+  async function sendMessage() {
+    const inputElement = document.getElementById('userInput');
+    const userMessage = inputElement.value.trim();
+    if (!userMessage) return;
+
+    const chatDiv = document.getElementById('chat');
+    chatDiv.innerHTML += `<div class="message user">🧑 You: ${userMessage}</div>`;
+    inputElement.value = '';
+    inputElement.disabled = true;
+
+    try {
+      const response = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: userMessage })
+      });
+      const data = await response.json();
+      if (data.error) {
+        chatDiv.innerHTML += `<div class="message">❌ Error: ${data.error}</div>`;
+      } else {
+        const aiReply = data.reply;
+        chatDiv.innerHTML += `<div class="message">🙋‍♀️ Aria: ${aiReply}</div>`;
+        speak(aiReply);
+      }
+    } catch (error) {
+      chatDiv.innerHTML += `<div class="message">❌ Failed to send message.</div>`;
+    }
+
+    chatDiv.scrollTop = chatDiv.scrollHeight;
+    inputElement.disabled = false;
+    inputElement.focus();
+  }
+
+  document.getElementById('userInput').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter') sendMessage();
+  });
+
+  const voiceBtn = document.getElementById('voiceBtn');
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (SpeechRecognition) {
+    const recog = new SpeechRecognition();
+    recog.lang = 'en-US';
+    recog.interimResults = false;
+    voiceBtn.addEventListener('click', () => recog.start());
+    recog.onresult = function (event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById('userInput').value = transcript;
+      sendMessage();
+    };
+    recog.onerror = function (event) {
+      alert('🎤 Voice recognition error: ' + event.error);
+    };
+  } else {
+    voiceBtn.disabled = true;
+    voiceBtn.textContent = '🎙️ Not Supported';
+    alert('❌ Your browser does not support voice recognition.');
+  }
+
+  function speak(text) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+  }
+</script>
+</body>
+</html>
