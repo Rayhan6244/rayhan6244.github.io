@@ -1,3 +1,5 @@
+require('dotenv').config();
+const apiKey = process.env.OPENAI_API_KEY;
 
 require("dotenv").config();
 const express = require("express");
