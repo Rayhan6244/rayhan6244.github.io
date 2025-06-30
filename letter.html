@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Letter to My Love</title>
+
+<style>
+
+* {
+
+margin: 0;
+
+padding: 0;
+
+box-sizing: border-box;
+
+font-family: 'Playfair Display', serif;
+
+}
+
+body {
+
+min-height: 100vh;
+
+display: flex;
+
+justify-content: center;
+
+align-items: center;
+
+background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+
+color: #fff;
+
+overflow-x: hidden;
+
+}
+
+  
+
+.container {
+
+max-width: 800px;
+
+margin: 20px;
+
+padding: 40px;
+
+background: rgba(255, 255, 255, 0.05);
+
+backdrop-filter: blur(10px);
+
+border-radius: 15px;
+
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+position: relative;
+
+overflow: hidden;
+
+}
+
+  
+
+.letter {
+
+opacity: 0;
+
+transform: translateY(50px);
+
+animation: fadeInUp 1s ease forwards;
+
+}
+
+  
+
+h1 {
+
+font-size: 2.5rem;
+
+text-align: center;
+
+margin-bottom: 20px;
+
+color: #ff6b6b;
+
+text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+
+}
+
+  
+
+p {
+
+font-size: 1.2rem;
+
+line-height: 1.8;
+
+margin-bottom: 20px;
+
+color: #e0e0e0;
+
+text-align: justify;
+
+}
+
+  
+
+.highlight {
+
+color: #ff6b6b;
+
+font-weight: bold;
+
+}
+
+  
+
+.heart {
+
+position: absolute;
+
+width: 20px;
+
+height: 20px;
+
+background: #ff6b6b;
+
+transform: rotate(45deg);
+
+opacity: 0;
+
+animation: float 6s infinite;
+
+}
+
+  
+
+.heart::before,
+
+.heart::after {
+
+content: '';
+
+width: 20px;
+
+height: 20px;
+
+background: #ff6b6b;
+
+border-radius: 50%;
+
+position: absolute;
+
+}
+
+  
+
+.heart::before {
+
+top: -10px;
+
+left: 0;
+
+}
+
+  
+
+.heart::after {
+
+top: 0;
+
+left: -10px;
+
+}
+
+  
+
+@keyframes float {
+
+0% {
+
+transform: translateY(100vh) rotate(45deg);
+
+opacity: 0.8;
+
+}
+
+100% {
+
+transform: translateY(-100vh) rotate(45deg);
+
+opacity: 0;
+
+}
+
+}
+
+  
+
+@keyframes fadeInUp {
+
+to {
+
+opacity: 1;
+
+transform: translateY(0);
+
+}
+
+}
+
+  
+
+@media (max-width: 600px) {
+
+.container {
+
+padding: 20px;
+
+}
+
+  
+
+h1 {
+
+font-size: 2rem;
+
+}
+
+  
+
+p {
+
+font-size: 1rem;
+
+}
+
+}
+
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="letter">
+
+<h1>To My Lover</h1>
+
+<p>I hope you are not like the ones who hurt me. I want you to know that I’ve been hurt so many times that I have been through a lot in life. Please <span class="highlight">take care of my heart</span> this time. There are times where I feel like I am not whole and not enough but I hope you will always be there for me to make me feel better.</p>
+
+<p>There are also some moments where I make mistakes and hurt people when I am hurt but I hope you will still understand and <span class="highlight">love me with all your heart</span>. I want you to know that I am not perfect, most of the time I hate myself but I hope you will also love the parts of me that I hate about myself.</p>
+
+<p>I hope you are not like the ones who gave up on me. I hope you will treat me right and make me feel worthy. Most of the time I hate my flaws and insecurities but I hope you will always remind me that whatever kind of person I become you will <span class="highlight">still love me</span>.</p>
+
+<p>I want you to know that I am hard to love but I hope you will stay with me. I overthink a lot but I hope you will also understand that. I hope you are not like the ones who left me with a broken heart. My lover, I hope you will <span class="highlight">love me right</span>.</p>
+
+<p>I didn’t fall in love with you because I needed a relationship. I fell in love with you because in your presence I found a <span class="highlight">sense of peace</span> I never knew I was missing. I didn’t fall for you out of loneliness I fell for you because your soul felt like home.</p>
+
+<p>Lastly, be my queen, make me your king and let us rule my kingdom together and rule over me, too.</p>
+
+</div>
+
+</div>
+
+  
+
+<script>
+
+function createHeart() {
+
+const heart = document.createElement('div');
+
+heart.classList.add('heart');
+
+heart.style.left = Math.random() * 100 + 'vw';
+
+heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+
+document.body.appendChild(heart);
+
+  
+
+setTimeout(() => {
+
+heart.remove();
+
+}, 6000);
+
+}
+
+  
+
+setInterval(createHeart, 300);
+
+  
+
+// Typewriter effect for the title
+
+const title = document.querySelector('h1');
+
+const text = title.textContent;
+
+title.textContent = '';
+
+let i = 0;
+
+  
+
+function typeWriter() {
+
+if (i < text.length) {
+
+title.textContent += text.charAt(i);
+
+i++;
+
+setTimeout(typeWriter, 100);
+
+}
+
+}
+
+  
+
+setTimeout(typeWriter, 500);
+
+</script>
+
+</body>
+
+</html>
